@@ -25,9 +25,22 @@ START_TEST(test_ListFree)
         list = dpl_create();
         dpl_free(&list);
         ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
+
         // TODO : Test free with one element
+        list = dpl_create();
+        dpl_insert_at_index(list, 'G', 0);
+        dpl_free(&list);
+        ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
 
         // TODO : Test free with multiple element
+        list = dpl_create();
+        dpl_insert_at_index(list, 'G', 0);
+        dpl_insert_at_index(list, 'f', 1);
+        dpl_insert_at_index(list, 'w', 2);
+        dpl_insert_at_index(list, 'h', 3);
+        dpl_insert_at_index(list, 'u', 4);
+        dpl_free(&list);
+        ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
 
     }
 END_TEST
@@ -37,9 +50,14 @@ START_TEST(test_ListInsertAtIndexListNULL)
         // Test inserting at index -1
         dplist_t *result = dpl_insert_at_index(NULL, 'A', -1);
         ck_assert_msg(result == NULL, "Failure: expected list to be NULL");
+        
         // TODO : Test inserting at index 0
-
+        dpl_insert_at_index(result, 'A', 0);
+        ck_assert_msg(result == NULL, "Failure: expected list to be NULL");
+        
         // TODO : Test inserting at index 99
+        dpl_insert_at_index(result, 'A', 99);
+        ck_assert_msg(result == NULL, "Failure: expected list to be NULL");
     }
 END_TEST
 
@@ -51,9 +69,39 @@ START_TEST(test_ListInsertAtIndexListEmpty)
     ck_assert_msg(dpl_size(result) == 1, "Failure: expected list to have size of 1, got a size of %d",
                                          dpl_size(result));
     dpl_free(&list);
+    
     // TODO : Test inserting at index 0
+    list = dpl_create();
+    result = dpl_insert_at_index(list, 'A', 0);
+    ck_assert_msg(dpl_size(result) == 1, "Failure: expected list to have size of 1, got a size of %d",
+                                         dpl_size(result));
+    dpl_free(&list);
 
     // TODO : Test inserting at index 99
+    list = dpl_create();
+    result = dpl_insert_at_index(list, 'A', 99);
+    ck_assert_msg(dpl_size(result) == 1, "Failure: expected list to have size of 1, got a size of %d",
+                                         dpl_size(result));
+    dpl_free(&list);
+}
+END_TEST
+
+START_TEST(test_ListGetElementAtIndex)
+{
+    dplist_t *list = dpl_create();
+    dpl_insert_at_index(list, 'A', 0);
+    dpl_insert_at_index(list, 'A', 1);
+    dpl_insert_at_index(list, 'A', 2);
+    dpl_insert_at_index(list, 'A', 3);
+    dpl_insert_at_index(list, 'G', 4);
+    dpl_insert_at_index(list, 'A', 5);
+    dpl_insert_at_index(list, 'A', 6);
+    ck_assert_msg(dpl_get_element_at_index(list, 4) == 'G', "Failure: expected result is G");
+    ck_assert_msg(dpl_get_element_at_index(list, 6) == 'A', "Failure: expected result is A");
+    dpl_get_element_at_index(list, 8);
+    dpl_free(&list);
+
+    
 }
 END_TEST
 
@@ -72,6 +120,7 @@ int main(void) {
     tcase_add_test(tc1_1, test_ListFree);
     tcase_add_test(tc1_1, test_ListInsertAtIndexListNULL);
     tcase_add_test(tc1_1, test_ListInsertAtIndexListEmpty);
+    tcase_add_test(tc1_1, test_ListGetElementAtIndex);
     // Add other tests here...
 
     srunner_run_all(sr, CK_VERBOSE);

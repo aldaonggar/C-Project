@@ -59,7 +59,8 @@ dplist_t *dpl_create() {
 
 void dpl_free(dplist_t **list) {
 
-    //TODO: add your code here
+    free(*list);
+    *list = NULL;
 
 }
 
@@ -118,9 +119,17 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index) {
 }
 
 int dpl_size(dplist_t *list) {
+    
+    if (list == NULL)
+        return -1;
+    int cnt = 0;
+    dplist_node_t * current = list->head;
+    while (current != NULL) {
+        cnt++;
+        current = current->next;
+    }
 
-    //TODO: add your code here
-    return -1;
+    return cnt;
 }
 
 dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
@@ -136,7 +145,17 @@ dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
 
 element_t dpl_get_element_at_index(dplist_t *list, int index) {
 
-    //TODO: add your code here
+    assert(dpl_size(list) > index);
+
+    int cnt = 0;
+    dplist_node_t * current = list->head;    
+    while (current != NULL) {
+        current = current->next;
+        if (cnt == index) {
+            return current->element;
+        }
+        cnt++;
+    }
 
 }
 
