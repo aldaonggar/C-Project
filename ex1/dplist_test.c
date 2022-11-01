@@ -83,24 +83,65 @@ START_TEST(test_ListInsertAtIndexListEmpty)
     ck_assert_msg(dpl_size(result) == 1, "Failure: expected list to have size of 1, got a size of %d",
                                          dpl_size(result));
     dpl_free(&list);
+
 }
 END_TEST
 
 START_TEST(test_ListGetElementAtIndex)
 {
     dplist_t *list = dpl_create();
-    dpl_insert_at_index(list, 'A', 0);
+    dpl_insert_at_index(list, 'F', 0);
     dpl_insert_at_index(list, 'A', 1);
-    dpl_insert_at_index(list, 'A', 2);
-    dpl_insert_at_index(list, 'A', 3);
+    dpl_insert_at_index(list, 'B', 2);
+    dpl_insert_at_index(list, 'C', 3);
     dpl_insert_at_index(list, 'G', 4);
-    dpl_insert_at_index(list, 'A', 5);
-    dpl_insert_at_index(list, 'A', 6);
+    dpl_insert_at_index(list, 'D', 5);
+    dpl_insert_at_index(list, 'E', 6);
+    ck_assert_msg(dpl_get_element_at_index(list, 5) == 'D', "Failure: expected result is D");
+    ck_assert_msg(dpl_get_element_at_index(list, 99) == 'E', "Failure: expected result is E");
+    ck_assert_msg(dpl_get_element_at_index(list, -1) == 'F', "Failure: expected result is F");
     ck_assert_msg(dpl_get_element_at_index(list, 4) == 'G', "Failure: expected result is G");
-    ck_assert_msg(dpl_get_element_at_index(list, 6) == 'A', "Failure: expected result is A");
-    dpl_get_element_at_index(list, 8);
     dpl_free(&list);
+    
+}
+END_TEST
 
+START_TEST(test_ListGetListWithRemovedElementAtIndex)
+{
+    dplist_t *list = dpl_create();
+    dpl_insert_at_index(list, 'F', 0);
+    dpl_insert_at_index(list, 'A', 1);
+    dpl_insert_at_index(list, 'B', 2);
+    dpl_insert_at_index(list, 'C', 3);
+    dpl_insert_at_index(list, 'G', 4);
+    dpl_insert_at_index(list, 'D', 5);
+    dpl_insert_at_index(list, 'E', 6);
+    dpl_remove_at_index(list, 5);
+    ck_assert_msg(dpl_get_element_at_index(list, 5) == 'E', "Failure: expected result is E");
+    dpl_remove_at_index(list, 99);
+    ck_assert_msg(dpl_get_element_at_index(list, 99) == 'G', "Failure: expected result is G");
+    dpl_remove_at_index(list, -1);
+    ck_assert_msg(dpl_get_element_at_index(list, -1) == 'A', "Failure: expected result is A");
+    dpl_free(&list);
+    
+}
+END_TEST
+
+START_TEST(test_ListGetIndexOfElement)
+{
+    dplist_t *list = dpl_create();
+    dpl_insert_at_index(list, 'F', 0);
+    dpl_insert_at_index(list, 'A', 1);
+    dpl_insert_at_index(list, 'B', 2);
+    dpl_insert_at_index(list, 'C', 3);
+    dpl_insert_at_index(list, 'G', 4);
+    dpl_insert_at_index(list, 'D', 5);
+    dpl_insert_at_index(list, 'E', 6);
+    ck_assert_msg(dpl_get_index_of_element(list, 'A') == 1, "Failure: expected result is 1");
+    ck_assert_msg(dpl_get_index_of_element(list, 'E') == 6, "Failure: expected result is 6");
+    ck_assert_msg(dpl_get_index_of_element(list, 'G') == 4, "Failure: expected result is 4");
+    ck_assert_msg(dpl_get_index_of_element(list, 'K') == -1, "Failure: expected result is -1");
+    dpl_free(&list);
     
 }
 END_TEST
@@ -121,6 +162,8 @@ int main(void) {
     tcase_add_test(tc1_1, test_ListInsertAtIndexListNULL);
     tcase_add_test(tc1_1, test_ListInsertAtIndexListEmpty);
     tcase_add_test(tc1_1, test_ListGetElementAtIndex);
+    tcase_add_test(tc1_1, test_ListGetListWithRemovedElementAtIndex);
+    tcase_add_test(tc1_1, test_ListGetIndexOfElement);
     // Add other tests here...
 
     srunner_run_all(sr, CK_VERBOSE);

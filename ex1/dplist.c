@@ -113,9 +113,33 @@ dplist_t *dpl_insert_at_index(dplist_t *list, element_t element, int index) {
 }
 
 dplist_t *dpl_remove_at_index(dplist_t *list, int index) {
+    if (list == NULL || dpl_size(list) == 0) {
+        return NULL;
+    }
 
-    //TODO: add your code here
+    if (index < 0) {
+        index = 0;
+    } else if (index >= dpl_size(list)) {
+        index = dpl_size(list) - 1;
+    }
 
+    dplist_node_t *curr = list->head;
+
+    for (int i = 0; i < index; i++) {
+        curr = curr->next;
+    }
+
+    if (list->head == curr) {
+        list->head = curr->next;
+    }
+    if (curr->next != NULL) {
+        curr->next->prev = curr->prev;
+    }
+    if (curr->prev != NULL) {
+        curr->prev->next = curr->next;
+    }
+
+    return list;
 }
 
 int dpl_size(dplist_t *list) {
@@ -144,25 +168,42 @@ dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
 }
 
 element_t dpl_get_element_at_index(dplist_t *list, int index) {
-
-    assert(dpl_size(list) > index);
-
-    int cnt = 0;
-    dplist_node_t * current = list->head;    
-    while (current != NULL) {
-        current = current->next;
-        if (cnt == index) {
-            return current->element;
-        }
-        cnt++;
+    
+    if (list == NULL || dpl_size(list) == 0) {
+        return '0';
     }
+
+    dplist_node_t * current = list->head; 
+
+    if (index < 0) {
+        index = 0;
+    } else if (index >= dpl_size(list)) {
+        index = dpl_size(list) - 1;
+    }
+
+    for (int i = 0;  i < index; i++)
+        current = current->next;
+    
+    return current->element;
 
 }
 
 int dpl_get_index_of_element(dplist_t *list, element_t element) {
 
-    //TODO: add your code here
+    if (list == NULL) {
+        return -1;
+    }
 
+    dplist_node_t * current = list->head; 
+
+    for (int i = 0;  i < dpl_size(list); i++) {
+        if (current->element == element) {
+            return i;
+        }
+        current = current->next;
+    }
+    
+    return -1;
 }
 
 
