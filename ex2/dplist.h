@@ -95,6 +95,5 @@ element_t dpl_get_element_at_index(dplist_t *list, int index);
  * \return the index of the element that matches 'element'
  */
 int dpl_get_index_of_element(dplist_t *list, element_t element);
-
 #endif  //DPLIST_H_
 
