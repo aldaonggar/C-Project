@@ -39,18 +39,25 @@ int element_compare(void * x, void * y) {
 }
 
 void setup(void) {
+    character = malloc(sizeof(my_element_t));
     character->id = 0;
     character->name = "F";
+    character1 = malloc(sizeof(my_element_t));
     character1->id = 1;
     character1->name = "A";
+    character2 = malloc(sizeof(my_element_t));
     character2->id = 2;
     character2->name = "B";
+    character3 = malloc(sizeof(my_element_t));
     character3->id = 3;
     character3->name = "C";
+    character4 = malloc(sizeof(my_element_t));
     character4->id = 4;
     character4->name = "G";
+    character5 = malloc(sizeof(my_element_t));
     character5->id = 5;
     character5->name = "D";
+    character6 = malloc(sizeof(my_element_t));
     character6->id = 6;
     character6->name = "E";
     return;
@@ -199,7 +206,7 @@ START_TEST(test_ListGetIndexOfElement)
     dpl_insert_at_index(list, character4, 4, false);
     dpl_insert_at_index(list, character5, 5, false);
     dpl_insert_at_index(list, character6, 6, false);
-    my_element_t* k;
+    my_element_t* k = malloc(sizeof(my_element_t));
     k->id = 7;
     k->name = "K";
     ck_assert_msg(dpl_get_index_of_element(list, character1) == 1, "Failure: expected result is 1");

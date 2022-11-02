@@ -73,11 +73,10 @@ void dpl_free(dplist_t **list, bool free_element) {
         return;
     }
 
-    dplist_node_t *current = dpl_get_reference_at_index(*list, 0);
     if (free_element) {
         for (int i = 0;  i < dpl_size(*list); i++) {
+            dplist_node_t *current = dpl_get_reference_at_index(*list, i);
             (*list)->element_free(current->element);
-            current = current->next;
         }
     }
     free(*list);
