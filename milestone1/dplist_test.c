@@ -116,7 +116,7 @@ START_TEST(test_ListFree)
         dpl_insert_at_index(list, character2, 2, true);
         dpl_insert_at_index(list, character3, 3, false);
         dpl_insert_at_index(list, character4, 4, true);
-        dpl_free(&list, true);
+        dpl_free(&list, false);
         ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
 
     }
@@ -179,7 +179,7 @@ START_TEST(test_ListGetElementAtIndex)
     ck_assert_msg(dpl_get_element_at_index(list, 99) == character6, "Failure: expected result is E");
     ck_assert_msg(dpl_get_element_at_index(list, -1) == character, "Failure: expected result is F");
     ck_assert_msg(dpl_get_element_at_index(list, 4) == character4, "Failure: expected result is G");
-    dpl_free(&list, true);
+    dpl_free(&list, false);
     
 }
 END_TEST
@@ -194,13 +194,13 @@ START_TEST(test_ListGetListWithRemovedElementAtIndex)
     dpl_insert_at_index(list, character4, 4, false);
     dpl_insert_at_index(list, character5, 5, false);
     dpl_insert_at_index(list, character6, 6, false);
-    dpl_remove_at_index(list, 5, true);
+    dpl_remove_at_index(list, 5, false);
     ck_assert_msg(dpl_get_element_at_index(list, 5) == character6, "Failure: expected result is E");
-    dpl_remove_at_index(list, 99, true);
+    dpl_remove_at_index(list, 99, false);
     ck_assert_msg(dpl_get_element_at_index(list, 99) == character4, "Failure: expected result is G");
-    dpl_remove_at_index(list, -1, true);
+    dpl_remove_at_index(list, -1, false);
     ck_assert_msg(dpl_get_element_at_index(list, -1) == character1, "Failure: expected result is A");
-    dpl_free(&list, true);
+    dpl_free(&list, false);
     
 }
 END_TEST
@@ -222,7 +222,7 @@ START_TEST(test_ListGetIndexOfElement)
     ck_assert_msg(dpl_get_index_of_element(list, character6) == 6, "Failure: expected result is 6");
     ck_assert_msg(dpl_get_index_of_element(list, character4) == 4, "Failure: expected result is 4");
     ck_assert_msg(dpl_get_index_of_element(list, k) == -1, "Failure: expected result is -1");
-    dpl_free(&list, true);
+    dpl_free(&list, false);
     
 }
 END_TEST
