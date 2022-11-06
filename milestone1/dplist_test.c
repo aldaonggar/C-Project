@@ -95,7 +95,7 @@ START_TEST(test_ListFree)
 
         // Test free empty list, don't use callback
         list = dpl_create(element_copy, element_free, element_compare);
-        dpl_free(&list, false);
+        dpl_free(&list, true);
         ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
 
         // Test free empty list, use callback
@@ -105,11 +105,19 @@ START_TEST(test_ListFree)
 
         // TODO : Test free with one element, also test if inserted elements are set to NULL
         list = dpl_create(element_copy, element_free, element_compare);
-        //dpl_insert_at_index(list, character, 0, false);
+        dpl_insert_at_index(list, character, 0, true);
         dpl_free(&list, true);
         ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
 
         // TODO : Test free with multiple element, also test if inserted elements are set to NULL
+        list = dpl_create(element_copy, element_free, element_compare);
+        dpl_insert_at_index(list, character, 0, true);
+        dpl_insert_at_index(list, character1, 1, false);
+        dpl_insert_at_index(list, character2, 2, true);
+        dpl_insert_at_index(list, character3, 3, false);
+        dpl_insert_at_index(list, character4, 4, true);
+        dpl_free(&list, true);
+        ck_assert_msg(list == NULL, "Failure: expected result to be NULL");
 
     }
 END_TEST
@@ -125,13 +133,14 @@ START_TEST(test_ListInsertAtIndexListNULL)
         ck_assert_msg(result == NULL, "Failure: expected list to be NULL");
         
         // TODO : Test inserting at index 99
-        dpl_insert_at_index(result, character, 99, true);
+        dpl_insert_at_index(result, character, 99, false);
         ck_assert_msg(result == NULL, "Failure: expected list to be NULL");
+        dpl_free(&result, true);
     }
 END_TEST
 
 START_TEST(test_ListInsertAtIndexListEmpty)
-{
+{   
     // Test inserting at index -1
     dplist_t *list = dpl_create(element_copy, element_free, element_compare);
     dplist_t *result = dpl_insert_at_index(list, character, -1, true);

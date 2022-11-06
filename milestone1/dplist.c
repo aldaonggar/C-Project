@@ -69,32 +69,38 @@ dplist_t *dpl_create(// callback functions
 }
 
 void dpl_free(dplist_t **list, bool free_element) {
-    if (list == NULL) {
+    if (*list == NULL) {
         return;
     }
-
-    if (free_element) {
-        for (int i = 0;  i < dpl_size(*list); i++) {
-            dplist_node_t *current = dpl_get_reference_at_index(*list, i);
-            (*list)->element_free(current->element);
+    if ((*list)->head != NULL) {
+        dplist_node_t *current = (*list)->head;
+        dplist_node_t *next = current->next;
+        while(next != NULL) {
+            if (free_element && current->element != NULL) {
+                (*list)->element_free(&current->element);
+            }
+            free(current);
+            current = next;
+            next = current->next;
         }
+        free(current);
     }
     free(*list);
     *list = NULL;
-
+    
 }
 
 dplist_t *dpl_insert_at_index(dplist_t *list, void *element, int index, bool insert_copy) {
     dplist_node_t *ref_at_index, *list_node;
     if (list == NULL) return NULL;
 
-    if (insert_copy) {
-        element = list->element_copy(element);
-    }
-
     list_node = malloc(sizeof(dplist_node_t));
     DPLIST_ERR_HANDLER(list_node == NULL, DPLIST_MEMORY_ERROR);
-    list_node->element = element;
+    if (insert_copy) {
+        list_node->element = list->element_copy(element);
+    } else {
+        list_node->element = element;
+    }
     // pointer drawing breakpoint
     if (list->head == NULL) { // covers case 1
         list_node->prev = NULL;
@@ -130,6 +136,7 @@ dplist_t *dpl_insert_at_index(dplist_t *list, void *element, int index, bool ins
 
 }
 
+
 dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
 
     if (list == NULL) {
@@ -151,10 +158,7 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
     for (int i = 0; i < index; i++) {
         current = current->next;
     }
-
-    if (free_element) {
-        list->element_free(current->element);
-    }
+    
 
     if (list->head == current) {
         list->head = current->next;
@@ -165,6 +169,11 @@ dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
     if (current->prev != NULL) {
         current->prev->next = current->next;
     }
+
+    if (free_element && current->element != NULL) {
+        list->element_free(&current->element);
+    } 
+    free(current);
 
     return list;
 
@@ -254,5 +263,6 @@ void *dpl_get_element_at_reference(dplist_t *list, dplist_node_t *reference) {
     return NULL;
     
 }
+    
 
 
