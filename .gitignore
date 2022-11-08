@@ -3,7 +3,7 @@ a.out
 build/
 
 #ignore all zip files
-*.zip
+#*.zip
 
 #ignore all intermediate files or other compiled output
 *.o
