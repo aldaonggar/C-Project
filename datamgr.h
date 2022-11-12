@@ -17,7 +17,7 @@
 #error SET_MAX_TEMP not set
 #endif
 
-#ifndef SET_MIN_TEMP
+#ifndef SET_MIN_TEMP 
 #error SET_MIN_TEMP not set
 #endif
 

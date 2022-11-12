@@ -15,9 +15,12 @@ int main(){
     if(data == NULL) return -1;
 
     datamgr_parse_sensor_files(map, data);
-
-    datamgr_free();
-
     fclose(map);
     fclose(data);
+    printf("%f", datamgr_get_avg(21));
+    printf("%ld", datamgr_get_last_modified(21));
+    printf("%hd", datamgr_get_room_id(21));
+    printf("%d", datamgr_get_total_sensors());
+    datamgr_free();
+
 }

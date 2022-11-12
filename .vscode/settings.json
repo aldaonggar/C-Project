@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "datamgr.h": "c",
+        "stdint.h": "c",
+        "types.h": "c",
+        "stdlib.h": "c"
+    }
+}
