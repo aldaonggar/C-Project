@@ -61,7 +61,7 @@ void datamgr_parse_sensor_files(FILE *fp_sensor_map, FILE *fp_sensor_data){
     for (int i = 0; i < 1000; i++) {
         cnt[i] = 0;
     }
-
+    printf("SIIIUUUU");
     sensor_data_t* sensor_data;
     while(fread(&sensor_data, sizeof(sensor_data_t), 1, fp_sensor_data)) {
         int index = dpl_get_index_of_element(sensor_list, sensor_data);
@@ -77,11 +77,11 @@ void datamgr_parse_sensor_files(FILE *fp_sensor_map, FILE *fp_sensor_data){
             }
             avg_temp /= RUN_AVG_LENGTH;
             sensor->running_avg = avg_temp;
-            if(sensor->running_avg < SET_MIN_TEMP) {
-                fprintf( stderr,"It's too cold in room %hu for sensor %hu with a running average of %lf on %ld\n", sensor->room_id, sensor->sensor_id, sensor->running_avg, sensor->last_modified);
+            if(sensor->running_avg < 21) {
+                fprintf( stderr,"It's too cold in room %hu for sensor %hu\n", sensor->room_id, sensor->sensor_id);
             }
-            if(sensor->running_avg > SET_MAX_TEMP) {
-                fprintf( stderr, "It's too warm in room %hu for sensor %hu with a running average of %lf on %ld\n",sensor->room_id, sensor->sensor_id, sensor->running_avg, sensor->last_modified);
+            if(sensor->running_avg > 29) {
+                fprintf( stderr, "It's too warm in room %hu for sensor %hu\n",sensor->room_id, sensor->sensor_id);
             }
             if (sensor->last_modified < sensor_data->ts || &sensor->last_modified == NULL) {
                 sensor->last_modified = sensor_data->ts;
