@@ -20,7 +20,7 @@ int main() {
     char input_string[100];
     pid_t p;
 
-    scanf("%s", input_string);
+    fgets(input_string, 100, stdin);
 
     p = fork();
 
@@ -35,12 +35,13 @@ int main() {
         char output_string[100];
         read(fd[0], output_string, 100);
         for (int i = 0; output_string[i] != '\0'; i++) {
-            if (output_string[i] > 90) {
+            if (output_string[i] > 96 && output_string[i] < 123) {
                 output_string[i] -= 32; 
-            } else {
+            } else if (output_string[i] > 64 && output_string[i] < 91){
                 output_string[i] += 32;
             }
         }
+        close(fd[0]);
         printf("%s\n", output_string);
     }
 
