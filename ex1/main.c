@@ -12,7 +12,7 @@ int main() {
     time_t t = time(NULL);
     if (insert_sensor(f, 1, 23.6, t) < 0)
         return -1;
-    if (close_db(f))
+    if (close_db(f) != 0)
         return -1;
 
 }
