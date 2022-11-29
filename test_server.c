@@ -10,7 +10,7 @@
 #include "lib/tcpsock.h"
 
 #define PORT 5678
-#define MAX_CONN 3  // state the max. number of connections the server will handle before exiting
+#define MAX_CONN 5  // state the max. number of connections the server will handle before exiting
 
 struct my_thread_info {
     int bytes;
