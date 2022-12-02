@@ -4,6 +4,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
 #include "sbuffer.h"
 
 /**
@@ -42,6 +44,7 @@ int sbuffer_free(sbuffer_t **buffer) {
     }
     free(*buffer);
     *buffer = NULL;
+
     return SBUFFER_SUCCESS;
 }
 
@@ -58,6 +61,7 @@ int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data) {
     {
         buffer->head = buffer->head->next;
     }
+
     free(dummy);
     return SBUFFER_SUCCESS;
 }

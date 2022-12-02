@@ -20,11 +20,11 @@
 
 #define NUM_MEASUREMENTS    100
 #define SLEEP_TIME          30      // every SLEEP_TIME seconds, sensors wake up and measure temperature
-#define NUM_SENSORS         9       // also defines number of rooms (currently 1 room = 1 sensor)
+#define NUM_SENSORS         8       // also defines number of rooms (currently 1 room = 1 sensor)
 #define TEMP_DEV            5       // max afwijking vorige temperatuur in 0.1 celsius
 
 uint16_t room_id[NUM_SENSORS] = {1, 2, 3, 4, 11, 12, 13, 14};
-uint16_t sensor_id[NUM_SENSORS] = {15, 21, 37, 49, 112, 129, 132, 142, 0};
+uint16_t sensor_id[NUM_SENSORS] = {15, 21, 37, 49, 112, 129, 132, 142};
 double sensor_temperature[NUM_SENSORS] = {15, 17, 18, 19, 20, 23, 24, 25}; // starting temperatures
 
 int main(int argc, char *argv[]) {
