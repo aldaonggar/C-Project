@@ -8,11 +8,6 @@
 
 dplist_t* sensor_list;
 
-void* element_copy(void * element);
-void element_free(void ** element);
-int element_compare(void * x, void * y);
-
-
 typedef struct {
     sensor_id_t sensor_id;         /** < sensor id */
     room_id_t room_id;
@@ -57,11 +52,10 @@ void datamgr_parse_sensor_files(FILE *fp_sensor_map, FILE *fp_sensor_data){
          dpl_insert_at_index(sensor_list, sensor, 1000, false);
     }        
 
-    int cnt[1000];
+    int cnt[1000] = {0};
     for (int i = 0; i < 1000; i++) {
         cnt[i] = 0;
     }
-    printf("SIIIUUUU");
     sensor_data_t* sensor_data;
     while(fread(&sensor_data, sizeof(sensor_data_t), 1, fp_sensor_data)) {
         int index = dpl_get_index_of_element(sensor_list, sensor_data);
