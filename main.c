@@ -48,8 +48,7 @@ void* reader(void* reader_tid) {
     sbuffer_remove(buffer, data);
     
     while (data->id != 0) {
-        if (data->id != 0)
-            fprintf(data_out_file, "%d, %f, %ld \n", data->id, data->value, data->ts);    
+        fprintf(data_out_file, "%d, %f, %ld \n", data->id, data->value, data->ts);    
         sbuffer_remove(buffer, data);   
     }
     
